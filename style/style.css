@@ -105,7 +105,7 @@ table {
 	justify-content: space-between;
 }
 
-.city__content {
+.now {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -113,32 +113,32 @@ table {
 	padding: 20px 10px 10px;
 }
 
-.content__temperature {
+.now__temperature {
 	font-size: 70px;
 }
 
-.content__image {
+.now__image {
 	margin: 50px 0;
 	font-size: 40px;
 	text-align: center;
 }
 
-.content__city {
+.now__city {
 	display: flex;
 	justify-content: space-between;
 }
 
-.content__name {
+.now__name {
 	font-size: 24px;
 }
 
-.content__icon {
+.now__icon {
 	position: relative;
 	width: 20px;
 	height: 20px;
 }
 
-.content__checkbox {
+.now__checkbox {
 	opacity: 0;
 	z-index: 100;
 	position: absolute;
@@ -149,7 +149,7 @@ table {
 	cursor: pointer;
 }
 
-.content__shape {
+.now__shape {
 	position: absolute;
 	top: 1px;
 	left: 4px;
@@ -158,8 +158,79 @@ table {
 	background-image: url('../common/icons/heart-regular.svg');
 }
 
-.content__checkbox:checked ~ .content__shape {
+.now__checkbox:checked ~ .now__shape {
 	background-image: url('../common/icons/heart-solid.svg');
+}
+
+.details {
+	padding: 10px;
+}
+
+.details__header {
+	margin: 20px 0 40px;
+}
+
+.details__list {
+
+}
+
+.details__item {
+	margin: 15px 0;
+}
+
+.forecast {
+	padding: 0 15px;
+}
+
+.forecast__header {
+	margin: 30px 0 5px;
+}
+
+.forecast__list {
+
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin: 10px 0;
+	padding: 10px;
+	border: 1px solid #000000;
+}
+
+.card__details {
+	min-height: 50px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.card__information {
+
+}
+
+.card__date {
+	font-size: 18px;
+}
+
+.card__time {
+	font-size: 18px;
+}
+
+.card__data {
+	margin-top: 5px;
+	font-size: 18px;
+}
+
+.card__icon {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.card__text {
+	font-size: 18px;
 }
 
 .tabs {
