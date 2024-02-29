@@ -123,9 +123,15 @@ table {
 }
 
 .now__image {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	margin: 50px 0;
-	font-size: 40px;
-	text-align: center;
+}
+
+.now__image img {
+	width: 120px;
+	height: 120px;
 }
 
 .now__city {
