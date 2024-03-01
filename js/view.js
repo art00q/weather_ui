@@ -1,5 +1,13 @@
 import { createImageUrl } from "./api.js";
 
+const DETAIL_PARAMETERS = [
+  'Temperature', 
+  'Feels like',
+  'Weather',
+  'Sunrise',
+  'Sunset',
+];
+
 const UI_ELEMENTS = {
   TABS: {
     NOW: {
@@ -7,6 +15,10 @@ const UI_ELEMENTS = {
       TEMPERATURE: document.querySelector('.now__temperature'),
       ICON: document.querySelector('.now__image > img'),
     },
+    DETAILS: {
+      NAME: document.querySelector('.details__header'),
+      PARAMS_LIST: document.querySelector('.details__list'),
+    }
   },
   TAB_BUTTONS: document.querySelectorAll('.tabs__item'),
   TAB_DISPLAY: document.querySelectorAll('[data-link]'),
@@ -29,8 +41,24 @@ function renderNowTab(cityName, temp, icon) {
   UI_ELEMENTS.TABS.NOW.ICON.src = createImageUrl(icon);
 };
 
+function renderDetailsTab(cityName, params) {
+  UI_ELEMENTS.TABS.DETAILS.NAME.textContent = cityName,
+
+  UI_ELEMENTS.TABS.DETAILS.PARAMS_LIST.innerHTML = '';
+
+  DETAIL_PARAMETERS.forEach((param, i) => {
+    const weatherDetail = document.createElement('div');
+
+    weatherDetail.classList = 'details__item text';
+    weatherDetail.textContent = `${param}: ${params[i]}`;
+
+    UI_ELEMENTS.TABS.DETAILS.PARAMS_LIST.append(weatherDetail);
+  });
+};
+
 export {
   UI_ELEMENTS,
   renderNowTab,
   renderTabs,
+  renderDetailsTab,
 }
