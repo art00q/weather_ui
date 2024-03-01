@@ -1,0 +1,5 @@
+const favoritesList = [];
+
+export {
+  favoritesList,
+}

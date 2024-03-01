@@ -1,17 +1,23 @@
-import { API, createDetailsUrl } from "./api.js";
+import { API, 
+  createDetailsUrl 
+} from "./api.js";
 import { 
-  UI_ELEMENTS, renderDetailsTab, renderNowTab, renderTabs 
+  UI_ELEMENTS, 
+  renderDetailsTab, 
+  renderFavoritesList, 
+  renderNowTab, 
+  renderTabs 
 } from "./view.js";
-import { convertUnixTime, getCelcFromFaringate } from "./helpers.js";
+import { 
+  convertUnixTime, 
+  getCelcFromFaringate 
+} from "./helpers.js";
 import { DETAILS_ERROR_PARAMETERS } from "./handlers.js";
+import { favoritesList } from "./storage.js";
 
-// UI_ELEMENTS.TABS.forEach((elem) => {
-//   elem.addEventListener('submit', (event) => {
-//     event.preventDefault();
+renderFavoritesList();
 
-//     console.log(event.target.textContent)
-//   })
-// })
+const currentCityData = {};
 
 UI_ELEMENTS.SEARCH.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -19,9 +25,43 @@ UI_ELEMENTS.SEARCH.addEventListener('submit', (event) => {
   const cityName = event.target.firstElementChild.value;
   const cityDataUrl = createDetailsUrl(cityName);
 
+  handleRequestedData(cityDataUrl);
+
+  event.target.firstElementChild.value = '';
+});
+
+UI_ELEMENTS.TAB_BUTTONS.forEach((elem) => {
+  elem.addEventListener('click', (event) => {
+    const selectedTab = event.target.id;
+
+    renderTabs(selectedTab);
+  });
+});
+
+UI_ELEMENTS.SAVE_BUTTON.addEventListener('click', (event) => {
+  const isSaved = event.target.checked;
+  const isCityNotInStorage = !favoritesList.includes(currentCityData.name);
+
+  if (isSaved && isCityNotInStorage) {
+    favoritesList.push(currentCityData.name);
+  } else {
+    const index = favoritesList.indexOf(currentCityData.name);
+
+    if (index !== -1) {
+      favoritesList.splice(index, 1);
+    };
+  };
+
+  renderFavoritesList();
+
+  console.log(favoritesList)
+});
+
+function handleRequestedData(cityDataUrl) {
   getCityData(cityDataUrl)
     .then(data => {
-      console.log(data);
+      Object.assign(currentCityData, data);
+      console.log(currentCityData);
       const { name: cityName, 
         main: {
         temp,
@@ -57,17 +97,7 @@ UI_ELEMENTS.SEARCH.addEventListener('submit', (event) => {
       renderNowTab(error.message, '0°', '03d');
       renderDetailsTab(error.message, DETAILS_ERROR_PARAMETERS);
     });
-
-  event.target.firstElementChild.value = '';
-});
-
-UI_ELEMENTS.TAB_BUTTONS.forEach((elem) => {
-  elem.addEventListener('click', (event) => {
-    const selectedTab = event.target.id;
-
-    renderTabs(selectedTab);
-  });
-});
+};
 
 async function getCityData(url) {
   try {
@@ -90,4 +120,9 @@ async function getCityData(url) {
   } catch(error) {
     throw new Error(error.message);
   }
+}
+
+export {
+  currentCityData,
+  handleRequestedData,
 }
