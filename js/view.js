@@ -1,6 +1,14 @@
-import { createDetailsUrl, createImageUrl } from "./api.js";
-import { currentCityData, handleRequestedData } from "./script.js";
-import { favoritesList } from "./storage.js";
+import { 
+  createDetailsUrl, 
+  createImageUrl 
+} from "./api.js";
+import { 
+  handleRequestedData 
+} from "./script.js";
+import { 
+  favoritesList,
+  currentCityData,
+} from "./storage.js";
 
 const DETAIL_PARAMETERS = [
   'Temperature', 
@@ -84,7 +92,14 @@ function renderSaveButton() {
   const isCityInStorage = favoritesList.includes(currentCityData.name);
 
   UI_ELEMENTS.SAVE_BUTTON.checked = isCityInStorage;
-}
+};
+
+function init() {
+  const cityDataUrl = createDetailsUrl(currentCityData.name);
+
+  handleRequestedData(cityDataUrl);
+  renderFavoritesList();
+};
 
 export {
   UI_ELEMENTS,
@@ -93,4 +108,5 @@ export {
   renderDetailsTab,
   renderFavoritesList,
   renderSaveButton,
+  init,
 }

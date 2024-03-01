@@ -3,6 +3,7 @@ import { API,
 } from "./api.js";
 import { 
   UI_ELEMENTS, 
+  init, 
   renderDetailsTab, 
   renderFavoritesList, 
   renderNowTab, 
@@ -13,11 +14,13 @@ import {
   getCelcFromFaringate 
 } from "./helpers.js";
 import { DETAILS_ERROR_PARAMETERS } from "./handlers.js";
-import { favoritesList } from "./storage.js";
+import { 
+  favoritesList, 
+  storage,
+  currentCityData,
+} from "./storage.js";
 
-renderFavoritesList();
-
-const currentCityData = {};
+init();
 
 UI_ELEMENTS.SEARCH.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -52,6 +55,8 @@ UI_ELEMENTS.SAVE_BUTTON.addEventListener('click', (event) => {
     };
   };
 
+  storage.saveFavoriteCities(favoritesList);
+
   renderFavoritesList();
 
   console.log(favoritesList)
@@ -61,6 +66,8 @@ function handleRequestedData(cityDataUrl) {
   getCityData(cityDataUrl)
     .then(data => {
       Object.assign(currentCityData, data);
+      
+      storage.saveLastCityData(JSON.stringify(currentCityData));
       console.log(currentCityData);
       const { name: cityName, 
         main: {
@@ -123,6 +130,5 @@ async function getCityData(url) {
 }
 
 export {
-  currentCityData,
   handleRequestedData,
 }
