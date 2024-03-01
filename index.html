@@ -22,7 +22,7 @@
           </form>
           <div class="weather__content">
             <div class="weather__city">
-              <div data-link="now" class="now border-right">
+              <div data-link="now" class="now hidden border-right">
                 <p class="now__temperature text">
                   14
                 </p>
@@ -39,7 +39,7 @@
                   </div>
                 </div>
               </div>
-              <!-- <div data-link="details" class="details border-right">
+              <div data-link="details" class="details border-right">
                 <p class="details__header text">
                   Aktobe
                 </p>
@@ -60,8 +60,8 @@
                     Temperature: 14
                   </div>
                 </div>
-              </div> -->
-              <!-- <div data-link="forecast" class="forecast border-right">
+              </div>
+              <div data-link="forecast" class="forecast hidden border-right">
                 <p class="forecast__header text">
                   Aktobe
                 </p>
@@ -145,15 +145,15 @@
                     </div>
                   </div>
                 </div>
-              </div> -->
+              </div>
               <div class="tabs text">
-                <div class="tabs__item">
+                <div id="now" class="tabs__item">
                   Now
                 </div>
-                <div class="tabs__item">
+                <div id="details" class="tabs__item">
                   Details
                 </div>
-                <div class="tabs__item">
+                <div id="forecast" class="tabs__item">
                   Forecast
                 </div>
               </div>

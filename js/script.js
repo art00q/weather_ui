@@ -1,6 +1,6 @@
 import { API, createDetailsUrl } from "./api.js";
 import { 
-  UI_ELEMENTS, renderNowTab 
+  UI_ELEMENTS, renderNowTab, renderTabs 
 } from "./view.js";
 import { getCelcFromFaringate } from "./helpers.js";
 
@@ -37,6 +37,14 @@ UI_ELEMENTS.SEARCH.addEventListener('submit', (event) => {
     });
 
   event.target.firstElementChild.value = '';
+});
+
+UI_ELEMENTS.TAB_BUTTONS.forEach((elem) => {
+  elem.addEventListener('click', (event) => {
+    const selectedTab = event.target.id;
+
+    renderTabs(selectedTab);
+  });
 });
 
 async function getCityData(url) {
