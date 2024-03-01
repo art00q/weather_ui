@@ -1,6 +1,6 @@
 const API = {
   SERVER_URL: 'http://api.openweathermap.org/data/2.5/weather',
-  SERVER_URL_FORECAST: 'https://pro.openweathermap.org/data/2.5/forecast/hourly',
+  SERVER_URL_FORECAST: 'https://api.openweathermap.org/data/2.5/forecast',
   API_KEY: '38809edaf50d2af3b78dd8016e4f9ef4',
 };
 
@@ -20,4 +20,5 @@ export {
   API,
   createDetailsUrl,
   createImageUrl,
+  createForecastUrl,
 }

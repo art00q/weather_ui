@@ -1,11 +1,13 @@
 import { API, 
-  createDetailsUrl 
+  createDetailsUrl, 
+  createForecastUrl
 } from "./api.js";
 import { 
   UI_ELEMENTS, 
   init, 
   renderDetailsTab, 
   renderFavoritesList, 
+  renderForecast, 
   renderNowTab, 
   renderTabs 
 } from "./view.js";
@@ -19,6 +21,10 @@ import {
   storage,
   currentCityData,
 } from "./storage.js";
+import {
+  getCityData,
+  getCityForecast,
+} from './network.js';
 
 init();
 
@@ -58,76 +64,60 @@ UI_ELEMENTS.SAVE_BUTTON.addEventListener('click', (event) => {
   storage.saveFavoriteCities(favoritesList);
 
   renderFavoritesList();
-
-  console.log(favoritesList)
 });
 
-function handleRequestedData(cityDataUrl) {
-  getCityData(cityDataUrl)
-    .then(data => {
-      Object.assign(currentCityData, data);
-      
-      storage.saveLastCityData(JSON.stringify(currentCityData));
-      console.log(currentCityData);
-      const { name: cityName, 
-        main: {
-        temp,
-        feels_like,
-      }, 
-        weather: [
-          {
-            main,
-            icon,
-          }
-        ],
-        sys: {
-          sunrise,
-          sunset,
-        } } = data;
-
-      const celciusTemp = getCelcFromFaringate(temp);
-      const celciusFeels = getCelcFromFaringate(feels_like);
-
-      const detailParams = [
-        celciusTemp,
-        celciusFeels,
-        main,
-        convertUnixTime(sunrise),
-        convertUnixTime(sunset),
-      ];
-
-      renderNowTab(cityName, celciusTemp, icon);
-      renderDetailsTab(cityName, detailParams);
-    })
-    .catch((error) => {
-      console.log(error);
-      renderNowTab(error.message, '0°', '03d');
-      renderDetailsTab(error.message, DETAILS_ERROR_PARAMETERS);
-    });
-};
-
-async function getCityData(url) {
+async function handleRequestedData(cityDataUrl) {
   try {
-    const request = await fetch(url);
-    const json = await request.json();
-    const isRequestCorrect = json.cod === 200;
-
-    if (!isRequestCorrect) {
-      throw new Error(json.message);
-    }
-
-    const { name, main, weather, sys } = json;
-
-    return {
-      name,
+    const cityData = await getCityData(cityDataUrl);
+    Object.assign(currentCityData, cityData);
+        
+      
+    storage.saveLastCityData(JSON.stringify(currentCityData));
+    const { 
+      name: cityName, 
+      main: {
+      temp,
+      feels_like,
+    }, 
+      weather: [
+        {
+          main,
+          icon,
+        }
+      ],
+      sys: {
+        sunrise,
+        sunset,
+      },
+      coord: {
+        lat,
+        lon,
+      },
+    } = cityData;
+  
+    const celciusTemp = getCelcFromFaringate(temp);
+    const celciusFeels = getCelcFromFaringate(feels_like);
+    const detailParams = [
+      celciusTemp,
+      celciusFeels,
       main,
-      weather,
-      sys,
-    }
+      convertUnixTime(sunrise),
+      convertUnixTime(sunset),
+    ];
+
+    const cityForecast = await getCityForecast(createForecastUrl(currentCityData.coord.lat, currentCityData.coord.lon));
+    
+    currentCityData.list = cityForecast;
+  
+    renderNowTab(cityName, celciusTemp, icon);
+    renderDetailsTab(cityName, detailParams);
+    renderForecast();
   } catch(error) {
-    throw new Error(error.message);
+    console.log(error);
+    renderNowTab(error.message, '0°', '03d');
+    renderDetailsTab(error.message, DETAILS_ERROR_PARAMETERS);
   }
-}
+};
 
 export {
   handleRequestedData,
