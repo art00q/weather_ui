@@ -191,6 +191,7 @@ table {
 }
 
 .forecast {
+	height: 100%;
 	padding: 0 15px;
 	overflow-y: scroll;
 }
@@ -200,7 +201,6 @@ table {
 }
 
 .forecast__list {
-
 }
 
 .card {

@@ -3,18 +3,18 @@ const storage = {
     localStorage.setItem('favorites', list);
   },
   getFavoriteCities: function() {
-    return localStorage.getItem('favorites')
+    return JSON.parse(localStorage.getItem('favorites'))
   },
   saveLastCityData: function(data) {
     localStorage.setItem('cityData', data);
   },
   getLastCityData: function() {
-    return localStorage.getItem('cityData')
+    return JSON.parse(localStorage.getItem('cityData'))
   },
 };
 
-const currentCityData = JSON.parse(storage.getLastCityData()) || {};
-const favoritesList = [...(storage.getFavoriteCities()).split(',')] || [];
+const currentCityData = storage.getLastCityData() ? JSON.parse(storage.getLastCityData()) : {};
+const favoritesList = storage.getFavoriteCities() ? [...(storage.getFavoriteCities())?.split(',')] : [];
 
 export {
   favoritesList,

@@ -114,8 +114,8 @@ async function handleRequestedData(cityDataUrl) {
     renderForecast();
   } catch(error) {
     console.log(error);
-    renderNowTab(error.message, '0°', '03d');
-    renderDetailsTab(error.message, DETAILS_ERROR_PARAMETERS);
+    renderNowTab('No City', '0°', '03d');
+    renderDetailsTab('No City', DETAILS_ERROR_PARAMETERS);
   }
 };
 

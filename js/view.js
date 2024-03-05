@@ -101,7 +101,7 @@ function renderForecast() {
   UI_ELEMENTS.TABS.FORECAST.NAME.textContent = currentCityData.name;
   UI_ELEMENTS.TABS.FORECAST.FORECAST_LIST.innerHTML = '';
 
-  currentCityData.list.forEach((forecastData) => {
+  currentCityData?.list?.forEach((forecastData) => {
     const forecastCard = document.createElement('div');
 
     forecastCard.classList ='card';
@@ -156,7 +156,7 @@ function renderSaveButton() {
 };
 
 function init() {
-  const cityDataUrl = createDetailsUrl(currentCityData.name);
+  const cityDataUrl = createDetailsUrl(currentCityData?.name);
 
   handleRequestedData(cityDataUrl);
   renderFavoritesList();
